@@ -29,27 +29,24 @@ public class Cruzador implements Runnable {
     public void run() {
       
         Random random = new Random();
+        //wait betweem 0 and 3
         int time = random.nextInt(4);
         try {
             Thread.sleep(time * 1000);
         } 
         catch (InterruptedException exception) {
 
-            System.out.println("Ha ocurrido un eror en Sumador" + exception );
+            System.out.println("Ha ocurrido un eror " + exception );
         }
         int direccion = random.nextInt(2);
         synchronized(pnt) {
-            pnt.accederPuente(direccion);
-            System.out.println(direccion);
-            ZombiesLab.log += "Thread "+ numThread+"  : " + "en direccion " + direccion + "\n";            
+            pnt.accederPuente(direccion,  numThread);
         }
         synchronized(pnt) {
             pnt.salirPuente();
-            
         }          
             
         
-        ZombiesLab.log += "Finish Cruzador" +"\n";
     }
 
     

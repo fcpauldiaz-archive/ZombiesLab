@@ -21,14 +21,15 @@ public class Puente {
         this.puente = new ArrayList(4);
     }
     
-    public void accederPuente(int direccion) {
+    public void accederPuente(int direccion, int numThread) {
         if (puente.isEmpty()) {
             direccionActual = direccion;
         }
+        //no pueden haber más de 4 personas en el puente
         while (puente.size() >= 4) {
              try {
-                wait();
-                ZombiesLab.log += "Threads in puente = " + this.puente +"\n";
+                System.out.println("Threads in puente" + this.puente);
+                wait(); 
                 break;
             } catch (InterruptedException exception) {
                 System.out.println("Error puente" + exception);
@@ -36,12 +37,19 @@ public class Puente {
         }
         if (direccionActual == direccion) {
             this.puente.add(direccion);
+            if (direccion == 0) {
+                System.out.println("Cruzando " + numThread +" en dirección derecha");
+                
+            }
+            else {
+                System.out.println("Cruzando " + numThread + " en dirección izquierda");
+            }
         }
+        //tiene que esperar si no está en la misma dirección
         else {
             try {
-                System.out.println(this.puente);
+                //System.out.println(this.puente);
                 wait();
-                System.out.println("Sale wain");
                 ZombiesLab.log += "Threads in puente = " + this.puente + "\n";
             } catch (InterruptedException exception) {
                 System.out.println("Error puente" + exception);
@@ -51,11 +59,14 @@ public class Puente {
     }
     
     public void salirPuente() {
-        if (this.puente.size() > 4) {
-            System.out.println("Sale puto puente");
+       
+        
+        if (!this.puente.isEmpty()){
+            System.out.println("Sale  puente");
             this.puente.remove(this.puente.get(0));
             notifyAll();
         }
+        
         
     }
 
